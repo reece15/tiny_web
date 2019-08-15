@@ -5,6 +5,7 @@ import re
 import string
 import settings
 
+
 class BaseResponse(object):
 
     def __init__(self):
@@ -34,6 +35,7 @@ class BaseResponse(object):
     def render(self):
         pass
 
+
 class HtmlResponse(BaseResponse):
 
     def __init__(self, plain, view_data):
@@ -49,8 +51,9 @@ class HtmlResponse(BaseResponse):
         for index, item in enumerate(self._data):
             self._data[index] = string.Template(item).safe_substitute(self.view_data)
 
+
 class HtmlFileResponse(HtmlResponse):
-    def __init__(self,file_path, view_data):
+    def __init__(self, file_path, view_data):
         plain = None
         for item in settings.TEMPLATE_DIR:
             p = os.path.join(item, file_path)
@@ -61,10 +64,19 @@ class HtmlFileResponse(HtmlResponse):
             raise FileExistsError(u"template not found in {}".format(settings.TEMPLATE_DIR))
         super(HtmlFileResponse, self).__init__(plain, view_data)
 
+
 class Http404Error(HtmlResponse):
     def __init__(self):
         plain = '<html><BODY><h1>404 not found!</h1></BODY></html>'
-        self.status=404
+        self.status = 404
         self.view_data = {}
         super(Http404Error, self).__init__(plain=plain, view_data={})
 
+
+class HTTPResponse(BaseResponse):
+    def __init__(self, plain, content_type):
+        super(BaseResponse, self).__init__()
+        self._data.append(plain)
+        self.add_headers({
+            "Content-type": content_type
+        })

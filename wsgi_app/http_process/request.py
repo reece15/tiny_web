@@ -2,6 +2,7 @@
 import re
 from urllib.parse import unquote
 
+
 class BaseRequest(object):
 
     def __init__(self, env):
@@ -22,8 +23,8 @@ class BaseRequest(object):
 
         print(self.GET)
 
-
-    def parse_query(self, data):
+    @staticmethod
+    def parse_query(data):
         if isinstance(data, bytes):
             data = data.decode("utf-8")
         res = {}
@@ -42,6 +43,7 @@ class BaseRequest(object):
                     res[k] = v
 
         return res
+
 
 class Request(BaseRequest):
     def __init__(self, env):

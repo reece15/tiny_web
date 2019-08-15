@@ -2,9 +2,9 @@
 from wsgi_app.http_process.response import HtmlFileResponse
 from wsgi_app.router.routers import Router
 
+
 @Router.reg(path="^/index$")
 def index(request):
-    name = ""
     if request.method == "GET":
         name = request.GET.get("name")
     else:
