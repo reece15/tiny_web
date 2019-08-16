@@ -68,9 +68,9 @@ class HtmlFileResponse(HtmlResponse):
 class Http404Error(HtmlResponse):
     def __init__(self):
         plain = '<html><BODY><h1>404 not found!</h1></BODY></html>'
-        self.status = 404
         self.view_data = {}
         super(Http404Error, self).__init__(plain=plain, view_data={})
+        self.status = 404
 
 
 class HTTPResponse(BaseResponse):

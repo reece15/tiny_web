@@ -15,8 +15,8 @@
 - 简单模板渲染  √
 - command 
 - 中间件  √
-- session/cookie
-- view cache
+- session/cookie √
+- view cache 
 - 文件上传/下载
 - ORM
 - 异步IO

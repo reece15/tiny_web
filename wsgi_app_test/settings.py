@@ -14,3 +14,6 @@ VIEWS_FILES = (
 MIDDLEWARES = (
     "wsgi_app.middleware.session_middleware.SessionMiddleware",
 )
+
+
+COOKIES_BACKEND = "wsgi_app.session.session_file.FileSession"

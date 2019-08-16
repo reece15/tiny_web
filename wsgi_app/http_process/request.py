@@ -2,7 +2,6 @@
 import re
 from urllib.parse import unquote
 
-
 class BaseRequest(object):
 
     def __init__(self, env):
@@ -11,6 +10,7 @@ class BaseRequest(object):
         self.path = env.get("PATH_INFO")
         self.method = env.get("REQUEST_METHOD")
         self.content_length = int(env.get("CONTENT_LENGTH", 0) or 0)
+        self._cookies = {}
         self.GET = {}
         if self.query:
             self.GET.update(self.parse_query(self.query))
@@ -19,16 +19,18 @@ class BaseRequest(object):
             data = self.env['wsgi.input'].read(self.content_length)
 
             self.POST.update(self.parse_query(data))
-            print(self.POST)
 
-        print(self.GET)
+    @property
+    def cookies(self):
+        if not self._cookies:
+            self._cookies= dict(map(lambda y: y.split("=", 1), filter(lambda x:x,self.env.get("HTTP_COOKIE", '').split(";"))))
+        return self._cookies
 
     @staticmethod
     def parse_query(data):
         if isinstance(data, bytes):
             data = data.decode("utf-8")
         res = {}
-        print(data, type(data))
         for item in unquote(data).split("&"):
             m = re.match(r"([^=]+)=(.*)", item)
             if m:

@@ -20,7 +20,11 @@ class BaseWSGIApp(object):
         response = self.process_response(request)
 
         for item in reversed(middleware):
-            item.process_response(request, response)
+            res = item.process_response(request, response)
+            if res:
+                response = res
+            else:
+                break
 
         start_response(response.status_str, response.headers_list)
 
