@@ -10,3 +10,7 @@ TEMPLATE_DIR = (
 VIEWS_FILES = (
     "views",
 )
+
+MIDDLEWARES = (
+    "wsgi_app.middleware.session_middleware.SessionMiddleware",
+)

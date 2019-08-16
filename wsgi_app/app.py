@@ -3,17 +3,25 @@
 from wsgiref.simple_server import make_server
 from router.routers import Router
 from http_process.request import Request
-
+from middleware import load_middleware
 
 class BaseWSGIApp(object):
     def __call__(self, environ, start_response):
-        print(environ)
 
         # 处理并生成request对象 处理GET POST 请求参数
+        middleware = list(load_middleware())
+
         request = self.process_request(environ)
+
+        for item in middleware:
+            item.process_request(request)
 
         # 路由，然后处理中间件和业务逻辑
         response = self.process_response(request)
+
+        for item in reversed(middleware):
+            item.process_response(request, response)
+
         start_response(response.status_str, response.headers_list)
 
         return response
