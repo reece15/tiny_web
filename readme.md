@@ -14,7 +14,7 @@
 - response封装 模板/JSON/plain text  √  
 - 简单模板渲染  √
 - command 
-- 中间件  
+- 中间件  √
 - session/cookie
 - view cache
 - 文件上传/下载
