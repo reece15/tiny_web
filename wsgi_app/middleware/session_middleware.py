@@ -37,9 +37,9 @@ class SessionMiddleware(BaseMiddleware):
         :return:
         """
         cookies = request.cookies
-        sessoion_id = cookies.get(SESSION_KEY)
-        if not sessoion_id:
-            s = self.session_backend(SESSION_KEY, sessoion_id)
+        session_id = cookies.get(SESSION_KEY)
+        if not session_id:
+            s = self.session_backend(SESSION_KEY, session_id)
             s.re_new(response)
         return response
 
